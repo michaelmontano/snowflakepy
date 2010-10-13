@@ -1,4 +1,7 @@
-from ..src import idworker
+import sys
+sys.path = ['..'] + sys.path
+
+from src import idworker
 import time
 
 WORKER_MASK = 0x000000000001F000
