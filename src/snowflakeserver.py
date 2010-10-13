@@ -34,6 +34,7 @@ class SnowflakeServer(object):
 
 def print_usage():
     print 'python snowflakeserver.py <port> <worker_id> <datacenter_id>'
+    print 'e.g. python snowflakeserver.py 1111 1 1'
 
 def main():
     if len(sys.argv) != 4:
