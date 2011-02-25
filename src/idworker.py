@@ -1,6 +1,6 @@
 import time
 
-TWEPOCH = 1142974214000
+TWEPOCH = 1288834974657
 
 WORKER_ID_BITS = 5
 DATACENTER_ID_BITS = 5
@@ -12,6 +12,12 @@ WORKER_ID_SHIFT = SEQUENCE_BITS
 DATACENTER_ID_SHIFT = SEQUENCE_BITS + WORKER_ID_BITS
 TIMESTAMP_SHIFT = SEQUENCE_BITS + WORKER_ID_BITS + DATACENTER_ID_BITS
 SEQUENCE_MASK = (1 << SEQUENCE_BITS)
+
+def gen_id(timestamp, datacenter_id, worker_id, sequence):
+    return (timestamp - TWEPOCH) << TIMESTAMP_SHIFT | \
+            (datacenter_id << DATACENTER_ID_SHIFT) | \
+            (worker_id << WORKER_ID_SHIFT) | \
+            sequence
 
 class IdWorker(object):
     def __init__(self, worker_id, datacenter_id):
@@ -54,10 +60,7 @@ class IdWorker(object):
             self.sequence = 0
         
         self.last_timestamp = timestamp
-        return (timestamp - TWEPOCH) << TIMESTAMP_SHIFT | \
-                (self.datacenter_id << DATACENTER_ID_SHIFT) | \
-                (self.worker_id << WORKER_ID_SHIFT) | \
-                self.sequence
+        return gen_id(timestamp, self.datacenter_id, self.worker_id, self.sequence)
     
     def til_next_millis(self, last_timestamp):
         timestamp = self.time_gen()
