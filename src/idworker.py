@@ -19,6 +19,9 @@ def gen_id(timestamp, datacenter_id, worker_id, sequence):
             (worker_id << WORKER_ID_SHIFT) | \
             sequence
 
+def get_timestamp_from_id(id_):
+    return (id_ >> TIMESTAMP_SHIFT) + TWEPOCH
+
 class IdWorker(object):
     def __init__(self, worker_id, datacenter_id):
         assert worker_id >= 0 and worker_id <= MAX_WORKER_ID

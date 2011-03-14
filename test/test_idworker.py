@@ -94,3 +94,11 @@ def test_generate_unique_ids():
         tid = worker.next_id()
         s.add(tid)
     assert len(s) == n
+
+def test_get_timestamp_from_id():
+    worker = idworker.WakingIdWorker(1, 1)
+    ts = worker.get_timestamp()
+    id_ = idworker.gen_id(ts, 0, 0, 0)
+    id_ts = idworker.get_timestamp_from_id(id_)
+    print ts, id_ts
+    assert id_ts == ts
